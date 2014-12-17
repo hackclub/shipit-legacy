@@ -1,0 +1,19 @@
+{
+  "name": "shipit",
+  "version": "1.0.0",
+  "description": "Utility for creating projects on https://shipped.hackedu.us",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hackedu/shipit"
+  },
+  "author": "Zach Latta <zach@hackedu.us>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hackedu/shipit/issues"
+  },
+  "homepage": "https://github.com/hackedu/shipit"
+}
