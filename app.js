@@ -56,7 +56,21 @@ github_url: <%- githubURL %>\n\
 authors:\n\
 <% authors.forEach(function (author) { %>\
   - <%- author %>\n\
-<% }) %>'
+<% }) %>';
+
+var pullRequestTemplate = 'Project details:\n\
+\n\
+* Club: <%- club %>\n\
+* Name: <%- name %>\n\
+* Description: <%- description %>\n\
+* URL: <%- url %>\n\
+* GitHub: <%- githubURL %>\n\
+* Authors:\n\
+<% authors.forEach(function (author) { %>\
+  * <%- author %>\n\
+<% }) %>\n\
+\n\
+:shipit:';
 
 function toSpinalCase(s) {
   return s.toLowerCase().split(' ').join('-');
@@ -144,6 +158,15 @@ app.get('/begin', function (req, res) {
     var contents = ejs.render(projectTemplate, params);
     var commitMsg = 'projects: add ' + params.name;
     return Q.nfcall(forkedRepo.write, prBranch, path, contents, commitMsg);
+  })
+  .then(function () { // create the pull request
+    var pull = {
+      title: 'Add ' + params.name,
+      body: ejs.render(pullRequestTemplate, params),
+      base: 'gh-pages',
+      head: req.session.passport.user.username + ':' + prBranch
+    };
+    return Q.nfcall(repo.createPullRequest, pull);
   })
   .catch(function (err) {
     console.error(err);
