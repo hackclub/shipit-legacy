@@ -18,6 +18,7 @@
   "homepage": "https://github.com/hackedu/shipit",
   "dependencies": {
     "dotenv": "^0.4.0",
+    "ejs": "^1.0.0",
     "express": "^4.10.6",
     "express-session": "^1.9.3",
     "github-api": "^0.10.1",

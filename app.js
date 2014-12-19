@@ -1,5 +1,6 @@
 var config = require('./config.js');
 var express = require('express');
+var ejs = require('ejs');
 var Github = require('github-api');
 var GithubStrategy = require('passport-github').Strategy;
 var http = require('http').Server(app);
@@ -48,8 +49,21 @@ app.get('/auth/github/callback', passport.authenticate('github'),
           res.redirect('/begin');
         });
 
+var projectTemplate = 'name: <%- name %>\n\
+description: <%- description %>\n\
+url: <%- url %>\n\
+github_url: <%- githubURL %>\n\
+authors:\n\
+<% authors.forEach(function (author) { %>\
+  - <%- author %>\n\
+<% }) %>'
+
 function toSpinalCase(s) {
   return s.toLowerCase().split(' ').join('-');
+}
+
+function toSnakeCase(s) {
+  return s.toLowerCase().split(' ').join('_');
 }
 
 app.get('/begin', function (req, res) {
@@ -62,12 +76,14 @@ app.get('/begin', function (req, res) {
     name: 'Yelp for Yelp Reviews',
     description: "It's like Yelp, but for Yelp Reviews",
     url: 'http://example.com',
-    github_url: 'https://github.com/zachlatta/shipped',
+    githubURL: 'https://github.com/zachlatta/shipped',
     authors: ['Zaphod Beeblebrox', 'Arthur Dent', 'Trillian Astra']
   };
 
   var repo = github.getRepo('hackedu', 'shipped');
-  var forkedRepo = github.getRepo(req.session.passport.user.username, 'shipped');
+  var forkedRepo =
+    github.getRepo(req.session.passport.user.username, 'shipped');
+  var prBranch = toSpinalCase(params.name);
 
   Q.nfcall(repo.fork)
   .then(function () { // poll for creation of new repo
@@ -89,7 +105,7 @@ app.get('/begin', function (req, res) {
   })
   .then(function () {
     var deferred = Q.defer();
-    forkedRepo.branch('gh-pages', toSpinalCase(params.name), function (err) {
+    forkedRepo.branch('gh-pages', prBranch, function (err) {
       if (err) {
         deferred.reject(err);
       } else {
@@ -97,6 +113,13 @@ app.get('/begin', function (req, res) {
       }
     });
     return deferred.promise;
+  })
+  .then(function () {
+    var path = '_data/projects/'+toSnakeCase(params.club)+'/'+
+      toSnakeCase(params.name)+'.yml';
+    var contents = ejs.render(projectTemplate, params);
+    var commitMsg = 'projects: add '+params.name;
+    return Q.nfcall(forkedRepo.write, prBranch, path, contents, commitMsg);
   })
   .catch(function (err) {
     console.error(err);
