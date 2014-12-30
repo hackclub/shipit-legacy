@@ -54,8 +54,12 @@ app.get('/auth/github', passport.authenticate('github', { scope: 'public_repo' }
 
 app.get('/auth/github/callback', passport.authenticate('github'),
         function (req, res) {
-          res.redirect('/begin');
+          res.redirect('/projects/new');
         });
+
+app.get('/projects/new', function (req, res) {
+  res.render('new_project');
+});
 
 var projectTemplate = 'name: <%- name %>\n\
 description: <%- description %>\n\
