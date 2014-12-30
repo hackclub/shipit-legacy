@@ -5,6 +5,7 @@ var Github = require('github-api');
 var GithubStrategy = require('passport-github').Strategy;
 var http = require('http').Server(app);
 var passport = require('passport');
+var path = require('path');
 var Q = require('q');
 var session = require('express-session');
 
@@ -30,6 +31,9 @@ passport.use(new GithubStrategy({
   });
 }));
 
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
 app.use(express.static(__dirname + '/public'));
 
 app.use(session({
@@ -40,6 +44,10 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.get('/', function (req, res) {
+  res.render('index');
+});
 
 app.get('/auth/github', passport.authenticate('github', { scope: 'public_repo' }), function (req, res) {
 });

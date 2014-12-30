@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  p
+    :markdown
+      Ship It is a utility for submitting new projects to the
+      [hackEDU gallery](https://shipped.hackedu.us).
+  .auth
+    a(href='/auth/github' class='github-login')
+      | Login with <span class="github">GitHub</span>
