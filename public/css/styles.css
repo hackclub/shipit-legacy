@@ -57,6 +57,16 @@ html, body {
   line-height: 20px;
 }
 
+h1 {
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+input, textarea {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
 .wrapper {
   width: 400px;
   margin: 0 auto 0 auto;
