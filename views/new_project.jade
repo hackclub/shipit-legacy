@@ -1,4 +1,33 @@
 extends layout
 
 block content
-  p Foo
+  h1 New Project
+
+  form(action='/projects', method='post')
+    label(for='name') Name:
+      br
+      input#name(type='text', name='name', placeholder='Yelp For Yelp Reviews')
+    br
+    label(for='description') Description:
+      br
+      textarea#description(name='description',
+        placeholder="It's like Yelp, but for Yelp reviews.")
+    br
+    label(for='url') URL:
+      br
+      input#url(type='text', name='url',
+      placeholder='https://hackedu.github.io/yelp-for-yelp-reviews')
+    br
+    label(for='github_url') GitHub Repo URL:
+      br
+      input#github_url(type='text', name='github_url',
+      placeholder="https://github.com/hackedu/yelp-for-yelp-reviews")
+    br
+    label#authors Authors: #[a#add_author_btn(href='#') [+]]
+      br
+      input(id='authors[0]', type='text', name='authors[0]',
+      placeholder='Zaphod Beeblebrox')
+    br
+    input(type='submit', value='Save')
+
+  script(type='text/javascript', src='/js/new_project.js')
