@@ -1,6 +1,9 @@
+var bodyParser = require('body-parser');
 var config = require('./config.js');
 var express = require('express');
 var ejs = require('ejs');
+var form = require('express-form');
+var field = form.field;
 var Github = require('github-api');
 var GithubStrategy = require('passport-github').Strategy;
 var http = require('http').Server(app);
@@ -11,6 +14,8 @@ var session = require('express-session');
 
 var app = express();
 var port = process.env.PORT || 3000;
+
+var urlencodedParser = bodyParser.urlencoded({ extended: true });
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -60,6 +65,28 @@ app.get('/auth/github/callback', passport.authenticate('github'),
 app.get('/projects/new', function (req, res) {
   res.render('new_project');
 });
+
+app.post(
+  '/projects',
+  urlencodedParser,
+  form(
+    field('name').trim().required(),
+    field('description').trim().required(),
+    field('url').trim().required(),
+    field('github_url').trim().required(),
+    field('authors').required() // require at least one author
+  ),
+  function (req, res) {
+    if (!req.form.isValid) {
+      console.log(req.form.errors);
+      res.send('foo');
+      return
+    }
+
+    console.log(req.body);
+    res.send('foo');
+  }
+);
 
 var projectTemplate = 'name: <%- name %>\n\
 description: <%- description %>\n\
