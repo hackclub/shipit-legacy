@@ -73,18 +73,24 @@ app.post(
     field('name').trim().required(),
     field('description').trim().required(),
     field('url').trim().required(),
-    field('github_url').trim().required(),
+    field('githubURL').trim().required(),
+    field('club').trim().required(),
     field('authors').required() // require at least one author
   ),
   function (req, res) {
     if (!req.form.isValid) {
-      console.log(req.form.errors);
-      res.send('foo');
+      res.send('Form errors!');
       return
     }
 
-    console.log(req.body);
-    res.send('foo');
+    createProjectPR(req, req.body)
+    .then(function (pullRequest) {
+      res.redirect(pullRequest[0].html_url);
+    })
+    .catch(function (err) {
+      console.error(err);
+      res.send('error!');
+    });
   }
 );
 
@@ -139,79 +145,67 @@ function branchName(projectName, branches) {
   return branch;
 }
 
-app.get('/begin', function (req, res) {
+function createProjectPR(req, params) {
   var github = new Github({
     token: req.session.passport.user.accessToken,
     auth: 'oauth'
   });
-  var params = {
-    club: 'Super Sample Club',
-    name: 'Yelp for Yelp Reviews',
-    description: "It's like Yelp, but for Yelp Reviews",
-    url: 'http://example.com',
-    githubURL: 'https://github.com/zachlatta/shipped',
-    authors: ['Zaphod Beeblebrox', 'Arthur Dent', 'Trillian Astra']
-  };
 
   var repo = github.getRepo('hackedu', 'shipped');
   var forkedRepo =
     github.getRepo(req.session.passport.user.username, 'shipped');
   var prBranch;
 
-  Q.nfcall(repo.fork)
-  .then(function () { // poll for creation of new repo
-    var deferred = Q.defer();
+  return Q.nfcall(repo.fork)
+    .then(function () { // poll for creation of new repo
+      var deferred = Q.defer();
 
-    var timer = setTimeout(function () {
-      forkedRepo.contents('gh-pages', '', function (err, contents) {
+      var timer = setTimeout(function () {
+        forkedRepo.contents('gh-pages', '', function (err, contents) {
+          if (err) {
+            console.log('polling and got error', err);
+            return
+          }
+
+          clearInterval(timer);
+          deferred.resolve(contents);
+        }, true);
+      }, 500);
+
+      return deferred.promise;
+    })
+    .then(function () {
+      return Q.nfcall(forkedRepo.listBranches);
+    })
+    .then(function (branches) { // create branch for pull request
+      var deferred = Q.defer();
+      prBranch = branchName(params.name, branches);
+      forkedRepo.branch('gh-pages', prBranch, function (err) {
         if (err) {
-          console.log('polling and got error', err);
-          return
+          deferred.reject(err);
+        } else {
+          deferred.resolve();
         }
-
-        clearInterval(timer);
-        deferred.resolve(contents);
-      }, true);
-    }, 500);
-
-    return deferred.promise;
-  })
-  .then(function () {
-    return Q.nfcall(forkedRepo.listBranches);
-  })
-  .then(function (branches) { // create branch for pull request
-    var deferred = Q.defer();
-    prBranch = branchName(params.name, branches);
-    forkedRepo.branch('gh-pages', prBranch, function (err) {
-      if (err) {
-        deferred.reject(err);
-      } else {
-        deferred.resolve();
-      }
+      });
+      return deferred.promise;
+    })
+    .then(function () { // create the project's .yml file
+      var path = '_data/projects/' + toSnakeCase(params.club) + '/' + 
+        toSnakeCase(params.name) + '.yml';
+      var contents = ejs.render(projectTemplate, params);
+      var commitMsg = 'projects: add ' + params.name;
+      return Q.nfcall(forkedRepo.write, prBranch, path, contents, commitMsg);
+    })
+    .then(function () { // create the pull request
+      var pull = {
+        title: 'Add ' + params.name,
+        body: ejs.render(pullRequestTemplate, params),
+        base: 'gh-pages',
+        head: req.session.passport.user.username + ':' + prBranch
+      };
+      return Q.nfcall(repo.createPullRequest, pull);
     });
-    return deferred.promise;
-  })
-  .then(function () { // create the project's .yml file
-    var path = '_data/projects/' + toSnakeCase(params.club) + '/' + 
-      toSnakeCase(params.name) + '.yml';
-    var contents = ejs.render(projectTemplate, params);
-    var commitMsg = 'projects: add ' + params.name;
-    return Q.nfcall(forkedRepo.write, prBranch, path, contents, commitMsg);
-  })
-  .then(function () { // create the pull request
-    var pull = {
-      title: 'Add ' + params.name,
-      body: ejs.render(pullRequestTemplate, params),
-      base: 'gh-pages',
-      head: req.session.passport.user.username + ':' + prBranch
-    };
-    return Q.nfcall(repo.createPullRequest, pull);
-  })
-  .catch(function (err) {
-    console.error(err);
-  });
-  res.send('Done!');
-});
+};
 
 app.get('/logout', function (req, res) {
   req.logout();
