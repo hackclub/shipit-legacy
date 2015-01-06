@@ -78,7 +78,7 @@ app.post(
       // remove newline characters and join all words by spaces
       return desc.replace(/(\r\n|\n|\r)/gm, ' ').replace(/\s+/g, ' ').trim();
     }).required(),
-    field('url', 'URL').trim().required(),
+    field('url', 'URL').trim(),
     field('githubURL', 'GitHub Repo URL').trim().required(),
     field('club', 'Club').trim().required(),
     field('authors', 'Authors').array().notEmpty().required()
@@ -102,7 +102,9 @@ app.post(
 
 var projectTemplate = 'name: <%- name %>\n\
 description: <%- description %>\n\
+<% if (url) { %>\
 url: <%- url %>\n\
+<% } %>\
 github_url: <%- githubURL %>\n\
 authors:\n\
 <% authors.forEach(function (author) { %>\
@@ -114,7 +116,9 @@ var pullRequestTemplate = 'Project details:\n\
 * Club: <%- club %>\n\
 * Name: <%- name %>\n\
 * Description: <%- description %>\n\
+<% if (url) { %>\
 * URL: <%- url %>\n\
+<% } %>\
 * GitHub: <%- githubURL %>\n\
 * Authors:\n\
 <% authors.forEach(function (author) { %>\
