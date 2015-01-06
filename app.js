@@ -74,7 +74,10 @@ app.post(
   urlencodedParser,
   form(
     field('name', 'Name').trim().required(),
-    field('description', 'Description').trim().required(),
+    field('description', 'Description').trim().custom(function (desc) {
+      // remove newline characters and join all words by spaces
+      return desc.replace(/(\r\n|\n|\r)/gm, ' ').replace(/\s+/g, ' ').trim();
+    }).required(),
     field('url', 'URL').trim().required(),
     field('githubURL', 'GitHub Repo URL').trim().required(),
     field('club', 'Club').trim().required(),
@@ -86,7 +89,7 @@ app.post(
       return
     }
 
-    createProjectPR(req, req.body)
+    createProjectPR(req, req.form)
     .then(function (pullRequest) {
       res.redirect(pullRequest[0].html_url);
     })
