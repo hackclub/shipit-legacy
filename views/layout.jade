@@ -7,4 +7,8 @@ html
     div.wrapper
       h1.title hackEDU
       div.container
+        if messages
+          ul.flash.messages
+            for message in messages
+              li #{message}
         block content

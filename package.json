@@ -19,6 +19,7 @@
   "homepage": "https://github.com/hackedu/shipit",
   "dependencies": {
     "body-parser": "^1.10.0",
+    "connect-flash": "^0.1.1",
     "dotenv": "^0.4.0",
     "ejs": "^1.0.0",
     "express": "^4.10.6",
