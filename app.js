@@ -4,6 +4,7 @@ var express = require('express');
 var ejs = require('ejs');
 var form = require('express-form');
 var field = form.field;
+var flash = require('connect-flash');
 var Github = require('github-api');
 var GithubStrategy = require('passport-github').Strategy;
 var http = require('http').Server(app);
@@ -50,6 +51,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(flash());
+
 app.get('/', function (req, res) {
   res.render('index');
 });
@@ -63,23 +66,23 @@ app.get('/auth/github/callback', passport.authenticate('github'),
         });
 
 app.get('/projects/new', function (req, res) {
-  res.render('new_project');
+  res.render('new_project', {messages: req.flash().error});
 });
 
 app.post(
   '/projects',
   urlencodedParser,
   form(
-    field('name').trim().required(),
-    field('description').trim().required(),
-    field('url').trim().required(),
-    field('githubURL').trim().required(),
-    field('club').trim().required(),
-    field('authors').array().notEmpty().required()
+    field('name', 'Name').trim().required(),
+    field('description', 'Description').trim().required(),
+    field('url', 'URL').trim().required(),
+    field('githubURL', 'GitHub Repo URL').trim().required(),
+    field('club', 'Club').trim().required(),
+    field('authors', 'Authors').array().notEmpty().required()
   ),
   function (req, res) {
     if (!req.form.isValid) {
-      res.send('Form errors!');
+      res.redirect('/projects/new');
       return
     }
 
