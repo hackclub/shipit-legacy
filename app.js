@@ -75,7 +75,7 @@ app.post(
     field('url').trim().required(),
     field('githubURL').trim().required(),
     field('club').trim().required(),
-    field('authors').required() // require at least one author
+    field('authors').array().notEmpty().required()
   ),
   function (req, res) {
     if (!req.form.isValid) {
