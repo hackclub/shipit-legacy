@@ -4,31 +4,31 @@ block content
   h1 New Project
 
   form(action='/projects', method='post')
-    label(for='name') Name:
+    label(for='name') Name
       br
       input#name(type='text', name='name', placeholder='Yelp For Yelp Reviews')
     br
-    label(for='description') Description:
+    label(for='description') Description
       br
       textarea#description(name='description',
         placeholder="It's like Yelp, but for Yelp reviews.")
     br
-    label(for='url') URL: <small>Optional</small>
+    label(for='url') URL <small>Optional</small>
       br
       input#url(type='text', name='url',
-      placeholder='https://hackedu.github.io/yelp-for-yelp-reviews')
+      placeholder='https://yelpforyelpreviews.com')
     br
-    label(for='githubURL') GitHub Repo URL:
+    label(for='githubURL') GitHub Repo URL
       br
       input#githubURL(type='text', name='githubURL',
       placeholder="https://github.com/hackedu/yelp-for-yelp-reviews")
     br
-    label(for='club') Club:
+    label(for='club') Club
       br
       input#githubURL(type='text', name='club',
       placeholder='ESHS Programming Club')
     br
-    label#authors Authors: #[a#add_author_btn(href='#') [+]]
+    label#authors Authors #[a#add_author_btn(href='#') [+]]
       br
       input(id='authors[0]', type='text', name='authors[0]',
       placeholder='Zaphod Beeblebrox')
