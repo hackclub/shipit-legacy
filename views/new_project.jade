@@ -29,10 +29,9 @@ block content
       placeholder='ESHS Programming Club')
     br
     label#authors Authors #[a#add_author_btn(href='#') [+]]
-      br
-      input(id='authors[0]', type='text', name='authors[0]',
-      placeholder='Zaphod Beeblebrox')
-    br
+      div
+        input(id='authors[0]', type='text', name='authors[0]',
+        placeholder='Zaphod Beeblebrox')
     input(type='submit', value='Save')
 
   script(type='text/javascript', src='/js/new_project.js')

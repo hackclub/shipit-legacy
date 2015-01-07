@@ -71,6 +71,26 @@ input, textarea {
   width: 100%;
 }
 
+.author {
+  width: 100%;
+}
+
+.author .inputWrapper {
+  width: 93%;
+}
+
+.author .inputWrapper input {
+  width: inherit;
+}
+
+.author .removeWrapper a {
+  width: 7%;
+}
+
+.author .removeWrapper {
+  float: right;
+}
+
 .wrapper {
   width: 400px;
   margin: 0 auto 0 auto;
