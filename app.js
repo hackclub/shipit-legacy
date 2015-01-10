@@ -65,7 +65,14 @@ app.get('/auth/github/callback', passport.authenticate('github'),
           res.redirect('/projects/new');
         });
 
-app.get('/projects/new', function (req, res) {
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated())
+    return next();
+  else
+    res.redirect('/');
+}
+
+app.get('/projects/new', ensureAuthenticated, function (req, res) {
   res.render('new_project', {messages: req.flash().error});
 });
 
