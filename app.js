@@ -141,7 +141,7 @@ function toSnakeCase(s) {
 // incrementing numbers to it until it figures out a branch name that isn't
 // already taken.
 //
-// If the current branches are ['gh-pages', 'yelp-for-yelp-reviews',
+// If the current branches are ['master', 'yelp-for-yelp-reviews',
 // 'yelp-for-yelp-reviews-1'] and the // project name is 'Yelp for Yelp
 // Reviews', then the generated branch name will be 'yelp-for-yelp-reviews-2'.
 function branchName(projectName, branches) {
@@ -171,7 +171,7 @@ function createProjectPR(req, params) {
       var deferred = Q.defer();
 
       var timer = setTimeout(function () {
-        forkedRepo.contents('gh-pages', '', function (err, contents) {
+        forkedRepo.contents('master', '', function (err, contents) {
           if (err) {
             console.log('polling and got error', err);
             return
@@ -190,7 +190,7 @@ function createProjectPR(req, params) {
     .then(function (branches) { // create branch for pull request
       var deferred = Q.defer();
       prBranch = branchName(params.name, branches);
-      forkedRepo.branch('gh-pages', prBranch, function (err) {
+      forkedRepo.branch('master', prBranch, function (err) {
         if (err) {
           deferred.reject(err);
         } else {
@@ -210,7 +210,7 @@ function createProjectPR(req, params) {
       var pull = {
         title: 'Add ' + params.name,
         body: ejs.render(pullRequestTemplate, params),
-        base: 'gh-pages',
+        base: 'master',
         head: req.session.passport.user.username + ':' + prBranch
       };
       return Q.nfcall(repo.createPullRequest, pull);
