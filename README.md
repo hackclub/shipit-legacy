@@ -3,6 +3,8 @@
 Ship It is a utility for generating pull requests to submit projects to
 https://shipped.hackedu.us.
 
+![](http://i.imgur.com/NJmlsS6.jpg)
+
 ## Getting Started
 
 Requirements
