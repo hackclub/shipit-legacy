@@ -3,8 +3,11 @@ extends layout
 block content
   p
     :markdown
-      Ship It is a utility for submitting new projects to the
-      [hackEDU gallery](https://shipped.hackedu.us).
+      Ship It is a utility that submits projects to the [hackEDU Project
+      Gallery](https://shipped.hackedu.us).
+
+      It forks the [hackedu/shipped](https://github.com/hackedu/shipped)
+      repository and submits a pull request to add a new project for you.
   .auth
     a(href='/auth/github' class='github-login')
       | Login with <span class="github">GitHub</span>
