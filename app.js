@@ -87,7 +87,7 @@ app.post(
     }).required(),
     field('url', 'URL').trim(),
     field('githubURL', 'GitHub Repo URL').trim().required(),
-    field('club', 'Club').trim().required(),
+    field('clubs', 'Clubs').array().trim().notEmpty().required(),
     field('authors', 'Authors').array().notEmpty().required()
   ),
   function (req, res) {

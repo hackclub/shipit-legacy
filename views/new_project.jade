@@ -23,9 +23,9 @@ block content
       input#githubURL(type='text', name='githubURL',
       placeholder="https://github.com/hackedu/yelp-for-yelp-reviews")
     br
-    label(for='club') Club
+    label#clubs Club #[a#add_club_btn(href='#') [+]]
       br
-      select#club(name='club')
+      select(id='clubs[0]', name='clubs[0]')
         option(value='Armijo High School') Armijo High School
         option(value='Austin High School') Austin High School
         option(value='Bronx High School of Science') Bronx High School of Science
@@ -36,14 +36,14 @@ block content
         option(value='Cranbrook Schools') Cranbrook Schools
         option(value='Crenshaw High School') Crenshaw High School
         option(value='Downey High School') Downey High School
-        option(value='Elizabeth High School') Elizabeth High School
         option(value='El Segundo High School') El Segundo High School
+        option(value='Elizabeth High School') Elizabeth High School
         option(value='Garfield Senior High School') Garfield Senior High School
         option(value='Gig Harbor High School') Gig Harbor High School
         option(value='Glenaeon Rudolf Steiner School') Glenaeon Rudolf Steiner School
         option(value='Gunn High School') Gunn High School
-        option(value='Hack Camp') Hack Camp
         option(value='HS Hackers/Coded with Kids Meetup') HS Hackers/Coded with Kids Meetup
+        option(value='Hack Camp') Hack Camp
         option(value='Huntington Park High School') Huntington Park High School
         option(value='International Academy East') International Academy East
         option(value='Linda Márquez High School') Linda Márquez High School

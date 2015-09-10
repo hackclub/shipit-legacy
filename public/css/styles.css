@@ -71,23 +71,23 @@ input, textarea, select {
   width: 100%;
 }
 
-.author {
+.author, .club {
   width: 100%;
 }
 
-.author .inputWrapper {
+.author .inputWrapper, .club .selectWrapper {
   width: 93%;
 }
 
-.author .inputWrapper input {
+.author .inputWrapper input, .club .selectWrapper select {
   width: inherit;
 }
 
-.author .removeWrapper a {
+.author .removeWrapper a, .club .removeWrapper a {
   width: 7%;
 }
 
-.author .removeWrapper {
+.author .removeWrapper, .club .removeWrapper {
   float: right;
 }
 
