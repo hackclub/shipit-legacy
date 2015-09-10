@@ -74,6 +74,13 @@ block content
         option(value='West Adams High School') West Adams High School
         option(value='West Orange High School') West Orange High School
     br
+    label(for='event') Event
+      select#event(name='event')
+        option(value='N/A') N/A
+        option(value='MHacks Spring 2015') MHacks Spring 2015
+        option(value='Hacking Generation Y') Hacking Generation Y
+        option(value='PennApps Spring 2015') PennApps Spring 2015
+    br
     label#authors Authors #[a#add_author_btn(href='#') [+]]
       div
         input(id='authors[0]', type='text', name='authors[0]',
