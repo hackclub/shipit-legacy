@@ -113,6 +113,10 @@ description: <%- description %>\n\
 url: <%- url %>\n\
 <% } %>\
 github_url: <%- githubURL %>\n\
+clubs:\n\
+<% clubs.forEach(function (club) { %>\
+  - <%- club %>\n\
+<% }) %>
 authors:\n\
 <% authors.forEach(function (author) { %>\
   - <%- author %>\n\
@@ -120,7 +124,10 @@ authors:\n\
 
 var pullRequestTemplate = 'Project details:\n\
 \n\
-* Club: <%- club %>\n\
+* Clubs:\n\
+<% clubs.forEach(function (club) { %>\
+  * <%- club %>\n\
+<% }) %>\n\
 * Name: <%- name %>\n\
 * Description: <%- description %>\n\
 <% if (url) { %>\
@@ -207,8 +214,7 @@ function createProjectPR(req, params) {
       return deferred.promise;
     })
     .then(function () { // create the project's .yml file
-      var path = '_data/projects/' + toSnakeCase(params.club) + '/' + 
-        toSnakeCase(params.name) + '.yml';
+      var path = '_data/projects/' + toSnakeCase(params.name) + '.yml';
       var contents = ejs.render(projectTemplate, params);
       var commitMsg = 'projects: add ' + params.name;
       return Q.nfcall(forkedRepo.write, prBranch, path, contents, commitMsg);
