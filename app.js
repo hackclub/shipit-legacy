@@ -116,7 +116,7 @@ github_url: <%- githubURL %>\n\
 clubs:\n\
 <% clubs.forEach(function (club) { %>\
   - <%- club %>\n\
-<% }) %>
+<% }) %>\
 authors:\n\
 <% authors.forEach(function (author) { %>\
   - <%- author %>\n\
