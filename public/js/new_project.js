@@ -8,6 +8,9 @@ var authorPlaceholders = [
   'Arthur Dent',
   'Slartibartfast'
 ]
+var clubs = document.getElementById('clubs');
+var addClubBtn = document.getElementById('add_club_btn');
+var clubCount = 1;
 
 function getRandomElementIn(arr) {
   return arr[Math.floor(Math.random()*arr.length)];
@@ -52,4 +55,44 @@ function removeAuthorBtn(btn) {
   var authorDivParent = btn.parentNode.parentNode.parentNode;
   var authorDiv = btn.parentNode.parentNode;
   return authorDivParent.removeChild(authorDiv);
+}
+
+addClubBtn.onclick = function () {
+  var clubDiv = document.createElement('div');
+  var selectWrapper = document.createElement('span');
+  var select = document.createElement('select');
+  var removeWrapper = document.createElement('span');
+  var removeBtn = document.createElement('a');
+
+  clubDiv.setAttribute('class', 'club');
+
+  selectWrapper.setAttribute('class', 'selectWrapper');
+
+  select.setAttribute('id', 'club['+clubCount+']');
+  select.setAttribute('name', 'clubs['+clubCount+']');
+  select.innerHTML = document.getElementById('clubs[0]').innerHTML;
+
+  removeWrapper.setAttribute('class', 'removeWrapper');
+
+  removeBtn.setAttribute('class', 'remove-btn')
+  removeBtn.setAttribute('onclick', 'removeClubBtn(this)');
+  removeBtn.setAttribute('href', '#');
+  removeBtn.innerHTML = '[-]';
+
+  selectWrapper.appendChild(select);
+  removeWrapper.appendChild(removeBtn);
+
+  clubDiv.appendChild(selectWrapper);
+  clubDiv.appendChild(removeWrapper);
+
+  clubs.appendChild(clubDiv);
+
+  clubCount++;
+};
+
+function removeClubBtn(btn) {
+  // Remove the parent's parent of the btn
+  var clubDivParent = btn.parentNode.parentNode.parentNode;
+  var clubDiv = btn.parentNode.parentNode;
+  return clubDivParent.removeChild(clubDiv);
 }
