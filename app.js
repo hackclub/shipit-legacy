@@ -175,7 +175,7 @@ function createProjectPR(req, params) {
     auth: 'oauth'
   });
 
-  var repo = github.getRepo('hackedu', 'shipped');
+  var repo = github.getRepo('hackclub', 'shipped');
   var forkedRepo =
     github.getRepo(req.session.passport.user.username, 'shipped');
   var prBranch;

@@ -1,7 +1,7 @@
-# Ship It :shipit: [![Circle CI](https://circleci.com/gh/hackedu/shipit.svg?style=svg)](https://circleci.com/gh/hackedu/shipit)
+# Ship It :shipit: [![Circle CI](https://circleci.com/gh/hackcamp/shipit.svg?style=svg)](https://circleci.com/gh/hackcamp/shipit)
 
 Ship It is a utility for generating pull requests to submit projects to
-https://shipped.hackedu.us.
+https://shipped.hackcamp.io.
 
 ![](http://i.imgur.com/NJmlsS6.jpg)
 

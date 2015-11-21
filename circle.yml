@@ -15,6 +15,6 @@ deployment:
     branch: master
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - git clone git://github.com/hackedu/shipit /tmp/shipit && cd /tmp/shipit && docker build -t hackedu/shipit:$CIRCLE_SHA1 . && docker push hackedu/shipit:$CIRCLE_SHA1
+      - git clone git://github.com/hackclub/shipit /tmp/shipit && cd /tmp/shipit && docker build -t hackclub/shipit:$CIRCLE_SHA1 . && docker push hackclub/shipit:$CIRCLE_SHA1
       - /usr/bin/expect -c "spawn /bin/bash; send \"emp login\r\"; expect email { send $EMP_USERNAME\r }; expect password { send $EMP_PASSWORD\r }; expect \"Logged in.\";" > /dev/null
-      - emp deploy hackedu/shipit:$CIRCLE_SHA1
+      - emp deploy hackclub/shipit:$CIRCLE_SHA1
