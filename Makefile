@@ -1,4 +1,4 @@
-IMG=hackedu/shipit
+IMG=hackclub/shipit
 
 .PHONY: build push
 

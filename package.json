@@ -1,7 +1,7 @@
 {
   "name": "shipit",
   "version": "1.0.0",
-  "description": "Utility for creating projects on https://shipped.hackedu.us",
+  "description": "Utility for creating projects on https://shipped.hackclub.io",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/hackedu/shipit"
+    "url": "git://github.com/hackclub/shipit"
   },
-  "author": "Zach Latta <zach@hackedu.us>",
+  "author": "Zach Latta <zach@hackclub.us>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hackedu/shipit/issues"
+    "url": "https://github.com/hackclub/shipit/issues"
   },
-  "homepage": "https://github.com/hackedu/shipit",
+  "homepage": "https://github.com/hackclub/shipit",
   "dependencies": {
     "body-parser": "^1.10.0",
     "connect-flash": "^0.1.1",
