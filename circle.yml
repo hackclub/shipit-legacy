@@ -4,7 +4,8 @@ machine:
 
 dependencies:
   pre:
-    - go get github.com/remind101/emp
+    - curl -Ls https://install.convox.com/linux.zip > /tmp/convox.zip
+      && sudo unzip /tmp/convox.zip -d /usr/local/bin
 
 test:
   override:
@@ -14,7 +15,7 @@ deployment:
   hub:
     branch: master
     commands:
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - git clone git://github.com/hackclub/shipit /tmp/shipit && cd /tmp/shipit && docker build -t hackclub/shipit:$CIRCLE_SHA1 . && docker push hackclub/shipit:$CIRCLE_SHA1
-      - /usr/bin/expect -c "spawn /bin/bash; send \"emp login\r\"; expect email { send $EMP_USERNAME\r }; expect password { send $EMP_PASSWORD\r }; expect \"Logged in.\";" > /dev/null
-      - emp deploy hackclub/shipit:$CIRCLE_SHA1
+      - convox login $CONVOX_HOST --password $CONVOX_PASSWORD
+      - git clone git://github.com/hackclub/shipit /tmp/shipit
+        && cd /tmp/shipit
+        && convox deploy | sed 's/docker .*/docker ********/'
