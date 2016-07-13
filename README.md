@@ -1,5 +1,11 @@
 # Ship It :shipit: [![Circle CI](https://circleci.com/gh/hackclub/shipit.svg?style=svg)](https://circleci.com/gh/hackclub/shipit)
 
+**DEPRECATED**
+
+_**This repository has been deprecated and is no longer maintained.**_
+
+---
+
 Ship It is a utility for generating pull requests to submit projects to
 https://shipped.hackclub.io.
 
